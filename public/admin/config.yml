@@ -1,0 +1,22 @@
+backend:
+  name: github
+  repo: YOUR_GITHUB_USERNAME/REPO_NAME # update this!
+  branch: main
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "posts"
+    label: "Posts"
+    folder: "content/posts"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { name: "title", label: "Title" }
+      - { name: "date", label: "Date", widget: "datetime" }
+      - { name: "author", label: "Author" }
+      - { name: "tags", label: "Tags", widget: "list" }
+      - { name: "summary", label: "Summary", widget: "string" }
+      - { name: "coverImage", label: "Cover Image", widget: "image" }
+      - { name: "body", label: "Body", widget: "markdown" }

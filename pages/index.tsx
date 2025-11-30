@@ -1,78 +1,120 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import { GetStaticProps } from 'next';
+import Head from 'next/head';
+import Link from 'next/link';
+import Layout from '@/components/Layout';
+import { getSortedPostsData } from '@/lib/posts';
+import CyberBee from '@/components/CyberBee';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+type PostData = {
+  id: string;
+  date: string;
+  title: string;
+  excerpt: string;
+};
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+export default function Home({ allPostsData }: { allPostsData: PostData[] }) {
+  const featuredPost = allPostsData[0];
+  const morePosts = allPostsData.slice(1);
 
-export default function Home() {
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
-    >
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the index.tsx file.
+    <Layout title="Home">
+      <Head>
+        <title>Neural Hive | ML Mondays</title>
+      </Head>
+
+      
+
+      {/* Hero Section */}
+      <div className="relative mb-16 -mx-6 px-6 lg:-mx-[calc((100vw-100%)/2)] lg:px-[calc((100vw-100%)/2)] overflow-hidden">
+        <section className="relative text-center py-24 max-w-4xl mx-auto flex flex-col items-center">
+          <div className="mb-6 animate-bounce-slow">
+            <CyberBee className="w-20 h-20 md:w-24 md:h-24 drop-shadow-xl dark:drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]" />
+          </div>
+
+          {/* BADGE FIX: text-purple-900 for Light Mode visibility */}
+          <span className="inline-block py-1 px-3 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-900 dark:text-purple-200 text-xs font-mono font-bold tracking-wider mb-6 border border-purple-200 dark:border-purple-500/30">
+            NEURAL HIVE PRESENTS
+          </span>
+          
+          <h1 className="text-5xl md:text-8xl font-bold text-foreground mb-6 tracking-tighter">
+            ML Mondays
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          
+          <p className="text-xl md:text-2xl text-gray-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed font-light">
+            Weekly insights into <span className="text-purple-600 dark:text-purple-400 font-medium">Machine Learning</span>, Engineering, and the future of Intelligence.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs/pages/getting-started?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+        </section>
+      </div>
+
+      {/* Featured Post Card */}
+      {featuredPost && (
+        <section className="mb-16">
+          <h2 className="text-xs font-mono text-gray-500 dark:text-zinc-500 uppercase tracking-widest mb-6">
+            Latest Drop
+          </h2>
+          <Link href={`/posts/${featuredPost.id}`} className="group block">
+            <article className="relative overflow-hidden rounded-2xl bg-card border border-border p-8 md:p-12 transition-all duration-500 hover:border-purple-500/50 hover:shadow-xl dark:hover:shadow-purple-500/10">
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 text-sm font-mono text-cyan-600 dark:text-cyan-400 mb-4">
+                  <span>{featuredPost.date}</span>
+                  <span className="w-1 h-1 bg-current rounded-full" />
+                  <span>Featured</span>
+                </div>
+                <h3 className="text-3xl md:text-5xl font-bold mb-6 text-foreground group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-all duration-300">
+                  {featuredPost.title}
+                </h3>
+                <p className="text-lg text-gray-600 dark:text-zinc-300 mb-8 max-w-3xl leading-relaxed">
+                  {featuredPost.excerpt}
+                </p>
+                <span className="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-bold group-hover:gap-4 transition-all">
+                  Read Article <span aria-hidden="true">&rarr;</span>
+                </span>
+              </div>
+            </article>
+          </Link>
+        </section>
+      )}
+
+      {/* The Grid */}
+      {morePosts.length > 0 && (
+        <section>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-xs font-mono text-gray-500 dark:text-zinc-500 uppercase tracking-widest">
+              More Insights
+            </h2>
+            <div className="h-[1px] bg-gray-200 dark:bg-white/10 flex-grow ml-6"></div>
+          </div>
+          
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {morePosts.map(({ id, date, title, excerpt }) => (
+              <Link href={`/posts/${id}`} key={id} className="group h-full">
+                <article className="flex flex-col h-full p-6 rounded-xl bg-card border border-border hover:border-cyan-500/50 transition-all duration-300 shadow-sm hover:shadow-md dark:shadow-none hover:-translate-y-1">
+                  <span className="text-xs font-mono text-zinc-500 mb-3 block">{date}</span>
+                  <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-cyan-600 dark:group-hover:text-cyan-500 transition-colors">
+                    {title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-zinc-400 text-sm line-clamp-3 mb-4 flex-grow">
+                    {excerpt}
+                  </p>
+                  <div className="text-xs font-bold text-gray-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-500 transition-colors pt-4 mt-auto border-t border-gray-100 dark:border-white/5">
+                    READ POST
+                  </div>
+                </article>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+    </Layout>
   );
 }
+
+
+export const getStaticProps: GetStaticProps = async () => {
+  const allPostsData = getSortedPostsData();
+  return {
+    props: {
+      allPostsData,
+    },
+  };
+};
