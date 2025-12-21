@@ -48,7 +48,7 @@ export function getSortedPostsData() {
         title: data.title,
         date: data.date,
         summary: data.excerpt ?? data.summary ?? data.description,
-        tags: data.tags ?? undefined,
+        tags: data.tags ?? null,
       } as PostMeta;
     });
 

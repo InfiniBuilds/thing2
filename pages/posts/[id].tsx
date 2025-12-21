@@ -34,7 +34,7 @@ export default function Post({ postData }: { postData: any }) {
 // 1. Tell Next.js which IDs (slugs) exist so it can build them
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = getSortedPostsData().map((post) => ({
-    params: { id: post.id },
+    params: { id: post.slug as string },
   }));
   return {
     paths,
