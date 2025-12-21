@@ -5,6 +5,14 @@ import { remark } from 'remark';
 import html from 'remark-html';
 
 const postsDirectory = path.join(process.cwd(), 'content/posts');
+export type PostMeta = {
+  slug: string;
+  title: string;
+  date: string;
+  summary?: string;
+  tags?: string[];
+  [key: string]: unknown;
+};
 const calculateReadingTime = (content: string) => {
   const wordsPerMinute = 200;
   const wordCount = content.split(/\s+/g).length;
@@ -16,7 +24,7 @@ export function getSortedPostsData() {
   // 1. Get file names under /posts
   const fileNames = fs.readdirSync(postsDirectory);
 
-  const allPostsData = fileNames
+  const allPostsData: PostMeta[] = fileNames
     .filter((fileName) => {
       // 2. SAFETY FILTER: Only process .md or .mdx files.
       // This ignores system files like .gitkeep which cause the crash.
@@ -33,11 +41,15 @@ export function getSortedPostsData() {
       // 5. Use gray-matter to parse the post metadata section
       const matterResult = matter(fileContents);
 
-      // 6. Combine the data with the id
+      // 6. Combine the data with the slug and normalized summary field
+      const data = matterResult.data as Record<string, any>;
       return {
-        id,
-        ...(matterResult.data as { date: string; title: string; excerpt: string }),
-      };
+        slug: id,
+        title: data.title,
+        date: data.date,
+        summary: data.excerpt ?? data.summary ?? data.description,
+        tags: data.tags ?? undefined,
+      } as PostMeta;
     });
 
   // 7. Sort posts by date
