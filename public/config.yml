@@ -1,11 +1,10 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: InfiniBuilds/thing2
   branch: main
 
 site_url: https://thing2.netlify.app
 display_url: https://thing2.netlify.app
-
-logo_url: https://thing2.netlify.app/logo.png
 
 publish_mode: editorial_workflow
 
@@ -18,7 +17,6 @@ collections:
     folder: "content/posts"
     create: true
     slug: "{{slug}}"
-    format: "mdx"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Body", name: "body", widget: "markdown" }
