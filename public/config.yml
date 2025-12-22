@@ -1,5 +1,4 @@
 backend:
-  backend:
   name: git-gateway
   branch: main
 
@@ -7,8 +6,8 @@ site_url: https://thing2.netlify.app
 display_url: https://thing2.netlify.app
 
 logo_url: https://thing2.netlify.app/logo.png
-publish_mode: editorial_workflow
 
+publish_mode: editorial_workflow
 
 media_folder: "public/images"
 public_folder: "/images"
