@@ -6,7 +6,7 @@ backend:
 
 oauth:
   client_id: Ov23liZJjLvvkGfBWfwh
-  client_secret: 5286125c576328f597515e8189cdf8c8e9172a54
+  
 
 media_folder: "public/images"
 public_folder: "/images"
