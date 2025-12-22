@@ -1,11 +1,7 @@
 backend:
   backend:
-  name: github
-  repo: InfiniBuilds/thing2   # YOUR_GITHUB_USERNAME/REPO_NAME
+  name: git-gateway
   branch: main
-
-oauth:
-  client_id: Ov23liZJjLvvkGfBWfwh
   
 
 media_folder: "public/images"
